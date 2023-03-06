@@ -25,6 +25,12 @@ adrese=[]
 duration=60
 adresa_provjere=''
 rigid=''
+global_hash='0'
+global_nonce='0'
+global_job_id='0'
+global_server='0'
+global_hashrate='0'
+global_status='0'
 
 
 
@@ -66,11 +72,30 @@ def f_mineri(adresa,job,adresa_method):
  
             
                 
-
+            started = time.time()
             while 1:
+
                 if adresa.split('/RandomX')[0] == adrese[0][0].split('/RandomX')[0]:
                     #adresa_provjere = 'https://aduspara-middlerandomx.hf.space/provjeri'
-                    time.sleep(1)
+                    
+
+                    ####novi dio upisivanje######
+                    if global_status=='end':
+                        list1=[]
+                        dict1= {'nonce': global_nonce, 'result': global_hash,'job_id': global_job_id,'server': global_server, 'hashrate': global_hashrate}
+                        list1.append(dict1)
+                        global global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status
+                        global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status='0','0','0','0','0','0'
+                        return list1
+                    else:
+                        elapsed = time.time() - started
+                        if elapsed > 120:
+                            global global_status
+                            global_status='end'
+                    time.sleep(0.1)
+                    #######################
+
+                    '''
                     response_async = requests.post(adresa_provjere, json = {'broj_servera': len(adrese)})
                     if response_async.status_code == 200:
                         provjera_json = response_async.text#response_async.json()
@@ -79,16 +104,11 @@ def f_mineri(adresa,job,adresa_method):
                         r_status = r.get('status')
                         if r_status == 'end':
                             r_nonce = r.get('nonce')
-                            r_result = r.get('result')
+                            r_result = r.get('result')dc 
                             r_job_id = r.get('job_id')
                             p_server = r.get('server')
                             p_hashrate = r.get('hashrate')
                             list1=[]
-                            dict1= {'nonce': r_nonce, 'result': r_result,'job_id': r_job_id, 'server': p_server, 'hashrate': p_hashrate}
-                            list1.append(dict1)
-                            #if r_nonce != '0':
-                            #    ad = adresa.split('/RandomX')[0] + '/RandomX'
-                            #    zaustavi_asyc_minere(ad,r_result,r_nonce)
                             return list1
                             break
                     else:
@@ -104,6 +124,7 @@ def f_mineri(adresa,job,adresa_method):
                         list1.append(dict1)
                         return list1
                         break
+                    '''
                 else:
                     list1=[]
                     dict1= {'nonce': '0', 'result': '0','job_id': '0'}
@@ -287,6 +308,13 @@ def worker(q):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.post("/upisi")
+async def proc_post(request : Request):    
+    req_json = await request.json()
+    if req_json['hash']!='0':
+        global global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status
+        global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status = req_json['result'],req_json['nonce'], req_json['job_id'], req_json['server'], req_json['hashrate'], req_json['status']
 
 
 @app.post("/start")
