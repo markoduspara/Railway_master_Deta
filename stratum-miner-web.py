@@ -313,7 +313,7 @@ async def root():
 @app.post("/upisi")
 async def proc_post(request : Request):    
     req_json = await request.json()
-    if req_json['hash']!='0':
+    if req_json['result']!='0':
         global global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status
         global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status = req_json['result'],req_json['nonce'], req_json['job_id'], req_json['server'], req_json['hashrate'], req_json['status']
 
