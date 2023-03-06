@@ -80,11 +80,12 @@ def f_mineri(adresa,job,adresa_method):
                     
 
                     ####novi dio upisivanje######
+                    global global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status
                     if global_status=='end':
                         list1=[]
                         dict1= {'nonce': global_nonce, 'result': global_hash,'job_id': global_job_id,'server': global_server, 'hashrate': global_hashrate}
                         list1.append(dict1)
-                        global global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status
+                        
                         global_hash, global_nonce,global_job_id,global_server,global_hashrate,global_status='0','0','0','0','0','0'
                         return list1
                     else:
