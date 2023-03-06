@@ -91,7 +91,7 @@ def f_mineri(adresa,job,adresa_method):
                     else:
                         elapsed = time.time() - started
                         if elapsed > 120:
-                            global global_status
+                            #global global_status
                             global_status='end'
                     time.sleep(0.1)
                     #######################
