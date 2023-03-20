@@ -247,7 +247,7 @@ async def get_pokemon(session, url):
 async def main_get():
 
     ssl_context = ssl.create_default_context(cafile=certifi.where())
-    conn = aiohttp.TCPConnector(ssl=ssl_context,limit=150)
+    conn = aiohttp.TCPConnector(ssl=ssl_context,limit=50)
 
     async with aiohttp.ClientSession(connector=conn,trust_env=True) as session:
 
