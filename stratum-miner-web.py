@@ -252,9 +252,9 @@ async def main_get():
     async with aiohttp.ClientSession(connector=conn,trust_env=True) as session:
 
         tasks = []
-        for p_url in urls:#for number in range(1, 2):
-            url = p_url + "/pokreni"
-            tasks.append(asyncio.ensure_future(get_pokemon(session, url)))
+        #for p_url in urls:#for number in range(1, 2):
+            #url = p_url + "/pokreni"
+        tasks.append(asyncio.ensure_future(get_pokemon(session, "https://swaptest-1-m9294543.deta.app")))
 
         original_pokemon = await asyncio.gather(*tasks)
         for pokemon in original_pokemon:
